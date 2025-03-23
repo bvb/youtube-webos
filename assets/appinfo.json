@@ -11,7 +11,7 @@
   "playIcon": "playIcon.png",
   "iconColor": "#ff0000",
   "splashBackground": "splashBackground-v1.png",
-  "imageForRecents": "imageForRecents.png",
+  "imageForRecents": "icon_splash_480x480.png",
   "bgImage": "bgImage.png",
   "support360Content": true,
   "checkUpdateOnLaunch": false,
