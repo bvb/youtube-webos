@@ -5,6 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "all": "npm run build && npm run package && npm run deploy",
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
     "package": "ares-package -n dist",
