@@ -7,6 +7,7 @@
   "title": "YouTube AdFree",
   "icon": "icon.png",
   "largeIcon": "largeIcon.png",
+  "imageForRecents": "icon_splash_480x480.png",
   "iconColor": "#ff0000",
   "support360Content": true,
   "checkUpdateOnLaunch": false,

@@ -368,10 +368,11 @@ async function initAudioOnlyToggle() {
 applyUIFixes();
 initHideLogo();
 
-setTimeout(() => {
-  showNotification(
-    'Press [GREEN] to open YTAF configuration screen',
-    2000,
-    'green'
-  );
-});
+//bvb-tv: disable notification
+// setTimeout(() => {
+//   showNotification(
+//     'Press [GREEN] to open YTAF configuration screen',
+//     2000,
+//     'green'
+//   );
+// });
