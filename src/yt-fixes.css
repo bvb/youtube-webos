@@ -46,8 +46,3 @@ ytlr-tile-renderer[style*='width: 12.75rem; height: 21.25rem;']
   border-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
     30%;
 }
-
-/* Fix: progress bar w/ chapter markers uses a different layout */
-[idomkey='shadow'] {
-  background-color: rgba(11, 11, 11, 0.5) !important;
-}
