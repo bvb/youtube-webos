@@ -12,7 +12,7 @@ This checkout is a personal fork (see [Fork notes](#fork-notes)) of `webosbrew/y
 
 Node >= 22 and **pnpm** (version pinned by `packageManager` in `package.json`; install it with `npm i -g pnpm@<that version>` run outside the repo, since Node 25+ no longer bundles corepack). npm is rejected: `devEngines` makes any `npm run` fail with `EBADDEVENGINES`. Scripts such as `lint:all` and `all` call `pnpm` themselves, so it must be on `PATH`.
 
-There is no unit test suite; verification is lint + build + syntax-compat check + running on a TV.
+There is no unit test suite; verification is lint + build + syntax-compat check + running on a TV. [tests/integration/](tests/integration/) has manual scripts that drive the running app on the TV over its inspector (evaluate JS, press remote keys); see its README. Nothing runs them automatically.
 
 ```sh
 pnpm install
@@ -104,3 +104,4 @@ The bundle has to run on very old engines: `.browserslistrc` goes back to Safari
   - BLUE toggles subtitles (`src/subtitles.ts`, fork-only), and upstream's Audio-Only mode is moved from BLUE to YELLOW (`ui.js`). The TV player's caption API is undocumented: `toggleSubtitlesOn()` only switches on (YouTube picks the track, UI language first), `setOption('captions', 'track', {})` switches off, and `isSubtitlesOn()` updates synchronously.
   - `imageForRecents` in `appinfo.json` points at the fork's `icon_splash_480x480.png` instead of upstream's `imageForRecents.png`; `icon.svg` is enlarged; `splash.png` is added but unreferenced. `appinfo.json` is the usual rebase conflict.
   - The `all` script; `release/` and IDE files ignored (`.gitignore`, eslint ignores).
+  - Fork-only folders: `tests/integration/` (TV scripts) and `.plans/` (feature plans).
