@@ -8,6 +8,7 @@ import {
 } from './config.js';
 import './ui.css';
 import { requireElement } from './player_api/helpers';
+import { toggleSubtitles } from './subtitles'; //bvb-tv: BLUE toggles subtitles
 
 // We handle key events ourselves.
 window.__spatialNavigation__.keyMode = 'NONE';
@@ -206,13 +207,23 @@ const eventHandler = (evt) => {
       showOptionsPanel(!optionsPanelVisible);
     }
     return false;
-  } else if (getKeyColor(evt.charCode) === 'blue') {
+  } else if (getKeyColor(evt.charCode) === 'yellow') {
+    //bvb-tv: Audio-Only moved from BLUE to YELLOW
     evt.preventDefault();
     evt.stopPropagation();
 
     if (evt.type === 'keydown') {
       // Toggle Audio-Only mode.
       initAudioOnlyToggle();
+    }
+    return false;
+  } else if (getKeyColor(evt.charCode) === 'blue') {
+    //bvb-tv: BLUE toggles subtitles
+    evt.preventDefault();
+    evt.stopPropagation();
+
+    if (evt.type === 'keydown') {
+      showNotification(toggleSubtitles(), 2000, 'blue');
     }
     return false;
   }
@@ -335,7 +346,7 @@ async function initAudioOnlyToggle() {
   showNotification(
     `Audio-Only mode: ${audioOnlyEnabled ? 'Enabled' : 'Disabled'}`,
     2000,
-    'blue'
+    'yellow' //bvb-tv: was 'blue'
   );
 
   const controlsContainer = await requireElement(
@@ -354,7 +365,7 @@ async function initAudioOnlyToggle() {
     if (overlay) return;
 
     overlay = Object.assign(document.createElement('div'), {
-      textContent: 'Audio-Only Mode Enabled - Press [BLUE] to toggle',
+      textContent: 'Audio-Only Mode Enabled - Press [YELLOW] to toggle', //bvb-tv: was [BLUE]
       className: YTAF_OVERLAY_CLASS
     });
     root.prepend(overlay);

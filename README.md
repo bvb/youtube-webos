@@ -24,7 +24,8 @@
 - [SponsorBlock](https://sponsor.ajay.app/) Integration
 - [Autostart Support](#autostart)
 - Force Highest Video Quality
-- Audio-Only Mode (🟦 Blue button on remote)
+- Audio-Only Mode (🟨 Yellow button on remote)
+- Subtitles On/Off (🟦 Blue button on remote)
 - Full Animation Support
 - Shorts Removal
 - Higher-Quality Thumbnails

@@ -23,7 +23,7 @@ pnpm run package        # ares-package dist/ -> youtube.leanback.v4_<version>_al
 pnpm run deploy         # ares-install that .ipk onto the configured TV
 pnpm run all            # build + package + deploy (fork addition)
 pnpm run launch         # start the app on the TV
-pnpm run launch -- -p '{"contentTarget":"v=VIDEO_ID"}'   # launch straight into a video
+pnpm run launch -p '{"contentTarget":"v=VIDEO_ID"}'   # launch straight into a video (no `--`: pnpm forwards it and ares-launch rejects it)
 pnpm run inspect        # open remote Web Inspector for the running app
 
 pnpm run lint:all       # runs lint:tsc, lint:eslint, lint:prettier
@@ -70,7 +70,8 @@ Modules don't call into YouTube's code directly; they intercept it:
 
 - [src/config.js](src/config.js) is the single registry of options (`configOptions` map: key → `{ default, desc }`), persisted as JSON in `localStorage['ytaf-configuration']`. API: `configRead`, `configWrite`, `configAddChangeListener` / `configRemoveChangeListener`. Reading or writing an unknown key throws.
 - Change listeners receive a `CustomEvent`; the value is `evt.detail.newValue` (also `oldValue`, `key`).
-- [src/ui.js](src/ui.js) builds the options panel (GREEN remote button toggles it; BLUE toggles audio-only mode) with handwritten arrow-key navigation via the vendored spatial-navigation polyfill. Checkboxes are listed explicitly in `createOptionsPanel()`.
+- [src/ui.js](src/ui.js) builds the options panel (GREEN remote button toggles it; YELLOW toggles audio-only mode; BLUE toggles subtitles via [src/subtitles.ts](src/subtitles.ts)) with handwritten arrow-key navigation via the vendored spatial-navigation polyfill. Checkboxes are listed explicitly in `createOptionsPanel()`.
+- Color keys reach the handler twice: once as the raw webOS key (`keyCode` 403–406, `charCode` 0) and again as YouTube's re-dispatched event with `charCode` set (e.g. GREEN 404 → 172). `getKeyColor()` matches on `charCode`, so it acts on the second one.
 - `showNotification(text, ms, color)` from `ui.js` is the toast helper other modules import.
 
 **Adding an option:** add it to `configOptions` in `config.js`, add a `createConfigCheckbox('<key>')` line in `createOptionsPanel()`, then read it with `configRead` and react to `configAddChangeListener` in the feature module. New modules are wired in by importing them from `userScript.ts`.
@@ -100,5 +101,6 @@ The bundle has to run on very old engines: `.browserslistrc` goes back to Safari
 - Differences from upstream:
   - `upgradeThumbnails` defaults to `true` and `enableSponsorBlock` to `false` (`config.js`).
   - The "Press [GREEN]" startup toast is disabled (`ui.js`).
+  - BLUE toggles subtitles (`src/subtitles.ts`, fork-only), and upstream's Audio-Only mode is moved from BLUE to YELLOW (`ui.js`). The TV player's caption API is undocumented: `toggleSubtitlesOn()` only switches on (YouTube picks the track, UI language first), `setOption('captions', 'track', {})` switches off, and `isSubtitlesOn()` updates synchronously.
   - `imageForRecents` in `appinfo.json` points at the fork's `icon_splash_480x480.png` instead of upstream's `imageForRecents.png`; `icon.svg` is enlarged; `splash.png` is added but unreferenced. `appinfo.json` is the usual rebase conflict.
   - The `all` script; `release/` and IDE files ignored (`.gitignore`, eslint ignores).
